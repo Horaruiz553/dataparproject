@@ -22,11 +22,11 @@ Pasos para ejecutar el proyecto
 # Base de Datos
 - Postgresql
 
-# Credenciales de acceso para elejemplo
+# Credenciales de acceso para el ejemplo
 - Usuario: horaruiz	
 - Contraseña: 4467553
 
-
+# DESCRIPCION DEL DESAFIO
 
 # Desafío de análisis y desarrollo de sistemas
 
