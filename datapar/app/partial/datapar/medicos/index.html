@@ -1,0 +1,274 @@
+<!--<div class="container">-->
+<div class="row">
+    <ol class="breadcrumb">
+        <li><a ng-click="reload()"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
+        <li class="active"></li>Médicos
+    </ol>
+</div><!--/.row-->
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="row">
+            <div class="col-lg-10"><h2 class="page-header">Listado de Médicos</h2></div>
+            <!--<div class="col-lg-2"></div>-->
+            <div class="col-lg-1">
+                <div class="panel-heading"><a href="#" ng-click="agregar()" data-toggle="modal" data-target="#modalAgregar"><img src="../../../img/guardar.png" style="width: 36px; height: 36px" alt=""/></a></div>
+            </div>
+            <div class="col-lg-1">
+                <div class="panel-heading"><a href="#" ng-click="atras()" ><img src="../../../img/atras.png" style="width: 36px; height: 36px" alt=""/></a></div>
+            </div>
+        </div>
+    </div>
+</div><!--/.row-->    
+
+<div class="row">
+    <div class="panel panel-default panel-table">
+        <div class="panel-body">
+            <div class="well" style="margin-top:2em;">
+                <div>
+                    <table class="table table-striped table-bordered table-list">
+                        <thead>
+                            <tr>
+                                <th class="col-md-1">COD</th>
+                                <th class="col-md-3">NOMBRE</th>
+                                <th class="col-md-1">CEDULA</th>
+                                <th class="col-md-2">TELEFONO</th>
+                                <th class="col-md-2">ACCION</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="col-md-1">
+                                    <input type="text" ng-model="idFilter" class="form-control" placeholder="Código">
+                                </td>
+                                <td class="col-md-3">
+                                    <input type="text" ng-model="displaynameFilter" class="form-control" placeholder="Nombre">
+                                </td>
+                                <td class="col-md-1">
+                                    <input type="text" ng-model="cedulaFilter" class="form-control" placeholder="Cédula">
+                                </td>
+                                <td class="col-md-2">
+                                    <input type="text" ng-model="telefonoFilter" class="form-control" placeholder="Telefono">
+                                </td>
+                            </tr>
+                            <tr data-ng-repeat="person in people| filter:{'id': idFilter} | filter:{'nombre':displaynameFilter} | filter:{'cedula':cedulaFilter}  |filter:{'telefono': telefonoFilter} | limitTo: itemsPerPage: (currentPage - 1) * itemsPerPage">
+
+                                <td class="col-md-1" >{{person.id}}</td>
+                                <td class="col-md-3" >{{person.nombre}}</td>
+                                <td class="col-md-1" >{{person.cedula}}</td>
+                                <td class="col-md-2" >{{person.telefono}}</td>
+                                <td class="col-md-1">
+                        <center>
+                            <!--<button class="btn btn-danger btn-sm" ng-click="eliminar(person)" ><span class="glyphicon glyphicon-trash"></span></button>-->
+                            <button class="btn btn-info btn-sm" ng-click="modificar(person)" ><span class="glyphicon glyphicon-pencil"></span></button>
+                            <button class="btn btn-success btn-sm" ng-click="usuario(person)" ><span class="glyphicon glyphicon-user"></span></button>
+                            <button class="btn btn-danger btn-sm" ng-click="eliminar(person)" ><span class="glyphicon glyphicon-remove"></span></button>
+                        </center>
+                        </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-center">
+                    <ul uib-pagination 
+                        total-items="(people | filter:{'id': idFilter} | filter:{'nombre':displaynameFilter} | filter:{'cedula':cedulaFilter}  |filter:{'telefono': telefonoFilter}).length" 
+                        items-per-page="itemsPerPage"
+                        boundary-links="true" ng-model="currentPage"></ul>
+                </div>
+            </div>
+
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col col-xs-4">
+                </div>
+                <div class="col col-xs-8">
+                    <!--<div class="col col-xs-12">-->
+                    <div>
+                        <input type="hidden" id="paginaActual" value="0">
+
+                        <!--                        <div style="text-align: center" id="paginacionesPersonas" >
+                                                </div>-->
+
+                        <pagination 
+                            total-items="totalItems" 
+                            ng-model="currentPage" 
+                            ng-change="pageChangedFiltro()"
+                            boundary-links="true"
+                            id="paginacionFiltro" style="display: none"
+                            max-size="10" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
+
+                        </pagination>
+                        <pagination 
+                            total-items="totalItems" 
+                            ng-model="currentPage"
+                            style="display: none"
+                            ng-change="pageChangedSinFiltro()"
+                            id="paginacionSinFiltro"
+                            boundary-links="true"
+                            max-size="10" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
+                        </pagination>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!--/.row-->
+
+<div class="modal fade" id="modalAgregar" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <h4 class="modal-title custom_align" id="Heading">Confirmación de Registro </h4>
+            </div>
+            <div class="modal-body">
+                <!--<input type="hidden" ng-model="idUsu">-->
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2"><label>Nombre:</label></div>
+                        <div class="col-md-10"><input type="text" class="form-control" ng-model="personaAgregar.nombre"></div>
+                        <div class="col-md-2"><label>Cédula:</label></div>
+                        <div class="col-md-10"><input type="text" class="form-control" ng-model="personaAgregar.cedula"></div>
+                        <div class="col-md-2"><label>Dirección:</label></div>
+                        <div class="col-md-10"><input type="text" class="form-control" ng-model="personaAgregar.direccion"></div>
+                        <div class="col-md-2"><label>Email:</label></div>
+                        <div class="col-md-10"><input type="text" class="form-control" ng-model="personaAgregar.email"></div>
+                        <div class="col-md-2"><label>Teléfono:</label></div>
+                        <div class="col-md-10"><input type="text" class="form-control" ng-model="personaAgregar.telefono"></div>
+                        <div class="col-md-2"><label>Edad:</label></div>
+                        <div class="col-md-10"><input type="number" class="form-control" ng-model="personaAgregar.edad"></div>
+                        <div class="col-md-2"><label>Nro CRM:</label></div>
+                        <div class="col-md-10"><input type="text" class="form-control" ng-model="personaAgregar.nrocrm"></div>
+
+                        <div class="col-md-2"><label>Sexo:</label></div>
+                        <div class="col-md-10">
+                            <select class="form-control" id="sexo">
+                                <option value="-">-</option>
+                                <option value="M">Masculino</option>
+                                <option value="F">Femenino</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer ">
+                    <!--<span id="mensajeEnvio"></span>-->
+                    <button type="button" ng-click="registrar()" class="btn btn-success btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Confirmar</button>
+                </div>
+            </div>
+            <!-- /.modal-content --> 
+        </div>
+        <!-- /.modal-dialog --> 
+    </div>
+</div>
+<div class="modal fade" id="modalModificar" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <h4 class="modal-title custom_align" id="Heading">Confirmar la modificación</h4>
+            </div>
+            <div class="modal-body">
+                <!--<input type="hidden" ng-model="idUsu">-->
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2"><label>Nombre:</label></div>
+                        <div class="col-md-10"><input type="text" class="form-control" ng-model="personaModificar.nombre"></div>
+                        <div class="col-md-2"><label>Cédula:</label></div>
+                        <div class="col-md-10"><input type="text" class="form-control" ng-model="personaModificar.cedula"></div>
+                        <div class="col-md-2"><label>Dirección:</label></div>
+                        <div class="col-md-10"><input type="text" class="form-control" ng-model="personaModificar.direccion"></div>
+                        <div class="col-md-2"><label>Email:</label></div>
+                        <div class="col-md-10"><input type="text" class="form-control" ng-model="personaModificar.email"></div>
+                        <div class="col-md-2"><label>Teléfono:</label></div>
+                        <div class="col-md-10"><input type="text" class="form-control" ng-model="personaModificar.telefono"></div>
+                        <div class="col-md-2"><label>Edad:</label></div>
+                        <div class="col-md-10"><input type="number" class="form-control" ng-model="personaModificar.edad"></div>
+                        <div class="col-md-2"><label>Nro CRM:</label></div>
+                        <div class="col-md-10"><input type="text" class="form-control" ng-model="personaModificar.nrocrm"></div>
+
+                        <div class="col-md-2"><label>Sexo:</label></div>
+                        <div class="col-md-10">
+                            <select class="form-control" id="sexoModificar">
+                                <option value="-">-</option>
+                                <option value="M">Masculino</option>
+                                <option value="F">Femenino</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer ">
+                    <!--<span id="mensajeEnvio"></span>-->
+                    <button type="button" ng-click="actualizar()" class="btn btn-success btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Confirmar</button>
+                </div>
+            </div>
+            <!-- /.modal-content --> 
+        </div>
+        <!-- /.modal-dialog --> 
+    </div>
+</div>
+<div class="modal fade" id="modalUsuario" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <h4 class="modal-title custom_align" id="Heading">Confirmar su Usuario del Sistema</h4>
+            </div>
+            <div class="modal-body">
+                <!--<input type="hidden" ng-model="idUsu">-->
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2"><label>Nombre:</label></div>
+                        <div class="col-md-10"><input type="text" class="form-control" ng-model="personaUsuario.usuario"></div>
+                        <div class="col-md-2"><label>Contraseña:</label></div>
+                        <div class="col-md-10"><input type="password" class="form-control" ng-model="personaUsuario.password"></div>
+                    </div>
+                </div>
+
+                <div class="modal-footer ">
+                    <!--<span id="mensajeEnvio"></span>-->
+                    <button type="button" ng-click="registrarUsuario()" class="btn btn-success btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Confirmar</button>
+                </div>
+            </div>
+            <!-- /.modal-content --> 
+        </div>
+        <!-- /.modal-dialog --> 
+    </div>
+</div>
+
+<div class="modal fade" id="modalEnrol" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <h4 class="modal-title custom_align" id="Heading">Confirmar el registro de Matriculación</h4>
+            </div>
+            <div class="modal-body">
+                <!--<input type="hidden" ng-model="idUsu">-->
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2"><label>Código:</label></div>
+                        <div class="col-md-10"><input type="text" disabled="" class="form-control" ng-model="enrol.id"></div>
+                        <div class="col-md-2"><label>Nombre:</label></div>
+                        <div class="col-md-10"><input type="text" disabled="" class="form-control" ng-model="enrol.displayname"></div>
+
+                        <div class="col-md-2"><label>Usuario:</label></div>
+                        <div class="col-md-10">
+                            <div custom-select="c for c in usuariosEnrol | filter: $searchTerm track by $index" custom-select-options="enrol.usuario" ng-model="idUsuario"></div>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer ">
+                    <!--<span id="mensajeEnvio"></span>-->
+                    <button type="button" ng-click="registrarEnrol()" class="btn btn-success btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Confirmar</button>
+                </div>
+            </div>
+            <!-- /.modal-content --> 
+        </div>
+        <!-- /.modal-dialog --> 
+    </div>
+</div>

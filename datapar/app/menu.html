@@ -1,0 +1,163 @@
+<html ng-app="dataparAdminApp">
+    <head>
+        <title>Datapar | 2021</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!--PARA FILTRO DE BUSQUEDA CON FECHA-->
+        <script src="script/lib/moment.js" type="text/javascript"></script>
+
+        <script src="script/lib/jquery.min.js" type="text/javascript"></script>
+        <link href="css/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
+        <link href="css/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+
+        <script src="script/lib/angularjs.js" type="text/javascript"></script>
+        <!--<link href="css/listBoxCss.css" rel="stylesheet" type="text/css"/>-->
+
+        <!START pagination-->
+    <script src="script/lib/angular-animate.js" type="text/javascript"></script>
+    <script src="script/lib/angular-sanitize.js" type="text/javascript"></script>
+    <!--<script src="script/lib/ui-bootstrap-tpls-2.5.0.js" type="text/javascript"></script>-->
+    <script src="script/lib/ui-bootstrap-0.11.0.js" type="text/javascript"></script>
+    <!FINISH <!pagination-->
+        <link href="css/estiloCombo.css" rel="stylesheet" type="text/css"/>
+        <link href="css/estilos.css" rel="stylesheet" type="text/css"/>
+        <link href="css/checkBoxStyle.css" rel="stylesheet" type="text/css"/>
+
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+        <link href="css/lib/sweet_alert/sweetalert.css" rel="stylesheet" type="text/css"/>
+
+        <link rel="icon" type="image/png" href="img/icon_1.png" />
+
+        <!--template-->
+        <link href="template/css/datepicker.css" rel="stylesheet" type="text/css"/>
+        <link href="template/css/styles.css" rel="stylesheet" type="text/css"/>
+
+        <!--Icons-->
+        <script src="template/js/lumino.glyphs.js" type="text/javascript"></script>
+        <link href="template/css/datepicker.css" rel="stylesheet" type="text/css"/>
+
+        <link href="css/pickList.css" rel="stylesheet" type="text/css"/>
+        <script src="script/lib/angular-ip-adress-validate.js" type="text/javascript"></script>
+        <!--<script src="https://rawgit.com/CautemocSg/ng-ip-address/master/ngIpAddress.min.js"></script>-->
+
+
+
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-animate.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-sanitize.js"></script>
+        <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.2.0.js"></script>
+    </head>
+    <body onload="startTime()" ng-controller="menuCtrl">
+         <!--<body >-->
+            <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <!--<a class="navbar-brand" href="#"><span>{{nomUsu}}</span>{{apeUsu}}</a>-->
+                        <a class="navbar-brand" style="cursor: pointer;" ng-click="reload()"><span>ADMINI</span>STRADOR</a>
+                        <ul class="user-menu">
+                            <li class="dropdown pull-right">
+                                <a class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg><span id="mens"></span> ADMIN <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#" ng-click="salirData()"><svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg> Salir</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div><!-- /.container-fluid -->
+            </nav>
+
+            <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
+                <form role="search">
+                    <div class="form-group">
+                        <!--<input type="text" class="form-control" placeholder="Search">-->
+                    </div>
+                </form>
+                <ul class="nav menu" >
+                    <li class="active"><a href="menu.html" ng-click="reload()"><svg class="glyph stroked dashboard-dial"><use xlink:href="#stroked-dashboard-dial"></use></svg> Menú del Sistema</a></li>
+                    <li class="parent " onmouseover="this.style = 'background-color:rgba(101,109,115,.15)';" onmouseout="this.style = 'background-color:rgba(101,109,115,.15)';">
+                        <a href="#" onmouseover="this.style = 'background-color:rgba(101,109,115,.15)';" onmouseout="this.style = 'background-color:rgba(101,109,115,.15)';">
+                            <span data-toggle="collapse" href="#sub-item-1"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down"></use></svg></span> Opciones 
+                        </a>
+                        <ul class="children collapse" id="sub-item-1">
+                            <li id="pac" ng-click="addClase('pac')" onmouseover="this.style = 'background-color:#292e33';" onmouseout="this.style = 'background-color:#292e33';">
+                                <a class="" href="#" ui-sref="pacientes" id="admin_paciente" >
+                                    <svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Pacientes
+                                </a>
+                            </li>
+                            <li id="med" ng-click="addClase('med')" onmouseover="this.style = 'background-color:#292e33';" onmouseout="this.style = 'background-color:#292e33';">
+                                <a class="" href="#" ui-sref="medicos" id="admin_medico" >
+                                    <svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Médicos
+                                </a>
+                            </li>
+                            <li id="reg" ng-click="addClase('reg')" onmouseover="this.style = 'background-color:#292e33';" onmouseout="this.style = 'background-color:#292e33';">
+                                <a class="" href="#" ui-sref="registros" id="admin_registro" >
+                                    <svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Registros
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+            </div><!--/.sidebar-->
+
+            <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">	
+
+                <div ui-view></div>
+
+            </div>
+            
+            
+        <script src="script/lib/bootstrap.min.js" type="text/javascript"></script>
+        <script src="script/lib/sweetalert-dev.js" type="text/javascript"></script>
+        <script src="script/lib/customSelect.js" type="text/javascript"></script>
+
+        <!--CHART-->
+        <script src = "https://cdn.zingchart.com/zingchart.min.js" ></script>  
+        <script src = "https://cdn.zingchart.com/angular/zingchart-angularjs.js" ></script>  
+        <!--FIN CHART-->
+
+        <script src="script/lib/angular-route.js" type="text/javascript"></script>
+        <script src="script/lib/angular-ui-router.min.js" type="text/javascript"></script>
+        <script src="script/lib/ngCookies.js" type="text/javascript"></script>
+        <script src="script/app.js" type="text/javascript"></script>
+        <!--NUEVOS-->
+        <script src="script/controller/usuario-controller.js" type="text/javascript"></script>
+        <script src="script/controller/paciente-controller.js" type="text/javascript"></script>
+        <script src="script/controller/medico-controller.js" type="text/javascript"></script>
+        <script src="script/controller/registro-controller.js" type="text/javascript"></script>
+        
+        <script src="script/service/paciente-service.js" type="text/javascript"></script>
+        <script src="script/service/medico-service.js" type="text/javascript"></script>
+        <script src="script/service/usuario_sistema-service.js" type="text/javascript"></script>
+        <script src="script/service/registro-service.js" type="text/javascript"></script>
+
+        <!--template-->
+        <script src="template/js/chart.min.js" type="text/javascript"></script>
+        <script src="script/pickList.js" type="text/javascript"></script>
+        <script>
+                                    function startTime() {
+                                        var today = new Date();
+                                        var h = today.getHours();
+                                        var m = today.getMinutes();
+                                        var s = today.getSeconds();
+                                        m = checkTime(m);
+                                        s = checkTime(s);
+//                                        document.getElementById('txt').innerHTML = h + ":" + m + ":" + s;
+                                        var t = setTimeout(startTime, 500);
+                                    }
+                                    function checkTime(i) {
+                                        if (i < 10) {
+                                            i = "0" + i
+                                        }
+                                        ;  // add zero in front of numbers < 10
+                                        return i;
+                                    }
+        </script>
+    </body>
+</html>
