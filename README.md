@@ -19,6 +19,8 @@ Pasos para ejecutar el proyecto
 - Adjunto capturas de pantallas de la interfaz gráfica
 
 
+# Base de Datos
+- Postgresql
 
 # Credenciales de acceso para elejemplo
 - Usuario: horaruiz	
